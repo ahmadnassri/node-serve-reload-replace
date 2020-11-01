@@ -1,8 +1,8 @@
 version: 2.0
 
-id: template-node
+id: serve-reload-replace
 
 about:
-  title: Node Lib Template
-  description: node library project template
-  repository: ahmadnassri/template-node-lib
+  title: "SRR: Serve Reload Replace"
+  description: simple http server with built-in live reload, server-sent events, server side includes, and more!
+  repository: ahmadnassri/node-serve-reload-replace

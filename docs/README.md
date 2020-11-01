@@ -1,59 +1,138 @@
 ## Features
 
-#### CI Automation
+- **Serve**: Simple HTTP Server for static files
+  - forced cache busting through `Cache-Control: no-store` headers
+- **Reload**: Automatically watches for file changes, and reloads pages
+  - uses light weight [Server Sent Events] to notify browser with file changes
+  - automatically injects watcher client
+  - customize the client behavior with your own client script
+- **Replace**: Supports [Server Side Includes] directives
 
-> Using [GitHub Actions]
+## Install
 
-- automatic releases with [conventional-commits] & [semantic-release]
-- publish to both npm Public Registry & GitHub Package Manager
-- full history changelog in [GitHub Releases]
-- automatic pull-requests for dependency updates using [dependabot]
-- automatic merging of "patch" updates to dependencies using [dependabot-auto-merge]
-- lint everything with [super-linter]
-- lint commit message format against [Conventional Commits]
-- test on all LTS versions of Node.js
-- run `npm audit` before releasing / testing to keep a higher security standard
-
-##### Local Automation
-
-> Using [Docker Compose]
-
-- lint everything with [super-linter]
-- test on all LTS versions of Node.js
-- generate README using [pandoc] with a [template](./docs/README.template)
+```bash
+$ npm install --global serve-reload-replace
+```
 
 ## Usage
 
-#### GitHub Templates
+```bash
+$ srr --help
 
-1. create a repository from the template
-1. clone locally
-1. add secrets in GitHub Actions for `NPM_TOKEN` & `GH_TOKEN`
-1. update `colophon.yml`, `docs/README.md` with info about the project
-  
-> **Note:**  
-> `GH_TOKEN` is required for action `auto-merge`, `readme`, `release` workflows
+Usage: srr [options]
+  --root     Path to serve & watch                                 default: $PWD
+  --client   Path to custom EventSource client                     default: built-in
+  --address  Specify network interface to use                      default: 0.0.0.0
+  --port     Specify a port to use                                 default: 8080
+  --index    Specify which file should be used as the index page   default: index.html
+  --verbose  Verbose logging                                       default: false
+  --help     Display Help
+```
 
-## Local Automation
+###### quick start:
 
-use [Docker Compose][docker-compose] to run tasks locally:
+```bash
+$ cd ~/project
+$ srr
 
-- `docker-compose run readme` to regenerate `README.md`
-- `docker-compose run test` to run tests across all LTS versions of Node.js
-- `docker-compose run lint` to execute [super-linter] locally
+[02:02:46 PM] • Listening on 0.0.0.0 8080
+[02:02:47 PM] • Watching files in /home/ahmad/project/
+```
 
-> **Note:**  
-> Your main `README.md` file is in `docs/README.md`, the file at root is generated using [pandoc] using the provided [template](./docs/README.template).  
->
-> You should run `docker-compose run readme` after any change to `docs/README.md` and before commit / push
+This will launch the server in the current working director and start watching local files for changes.
 
-[GitHub Releases]: https://github.com/ahmadnassri/template-node/releases
-[conventional-commits]: https://www.conventionalcommits.org/
-[dependabot-auto-merge]: https://github.com/marketplace/actions/dependabot-auto-merge
-[dependabot]: https://dependabot.com/
-[Docker Compose]: https://docs.docker.com/compose/
-[GitHub Actions]: https://github.com/features/actions
-[pandoc]: https://pandoc.org/
-[semantic-release]: https://github.com/marketplace/actions/conventional-semantic-release
-[super-linter]: https://github.com/github/super-linter
-[Conventional Commits]: https://www.conventionalcommits.org/en/v1.0.0/
+open a browser window and navigate to `http://localhost:8080/` to start browsing.
+
+The built-in EventSource client will automatically reload all pages whenever any file changes
+
+> _**NOTE**: Future plans include selectively reloading resources in the browser._
+
+###### with optional arguments & custom client:
+
+```bash
+$ srr --root=~/projects/website/ --address=127.0.0.1 --port=2000 --client=js/my-client.js
+
+[02:02:46 PM] • Listening on 127.0.0.1 2000
+[02:02:47 PM] • Watching files in /home/ahmad/projects/website/
+```
+
+create a new file named `my-client.js` under `~/projects/website/js/`
+
+```js
+// connect to Server Sent Events special route
+const sse = new EventSource(`${window.location.origin}/__events`)
+
+sse.addEventListener('unlink', console.log)
+sse.addEventListener('add', console.log)
+sse.addEventListener('change', console.log)
+sse.addEventListener('error', event => console.error('SSE error'))
+```
+
+> _**NOTE**: see [Server Sent Events](#server-sent-events) for more details._
+
+open a browser window and navigate to `http://127.0.0.1:2000/`
+
+```bash
+[02:05:25 PM] • GET / ↦  200 OK
+[02:05:25 PM] • SSE Client Connected: 1604257525819
+```
+
+with the server running, and your browser connected, edit / update / delete any file under your project folder and your client JS will receive events, while the server logs will show the events and the file path:
+
+```bash
+[02:10:15 PM] • change index.html
+[02:11:30 PM] • add foo.html
+[02:11:42 PM] • unlink foo.html
+```
+
+![](docs/browser-console.png)
+
+## Server Sent Events
+
+File system events are forwarded from [`Chokidar`](https://github.com/paulmillr/chokidar) using [Server Sent Events].
+
+The built-in client is automatically served from the `/__client` endpoint, and it connects to the special path `/__events` which serves the events.
+
+The built-in client simply listens to `all` event and executes a page reload through `window.location.reload()`
+
+> **TODO:**
+> - Track actively opened files, and only notify relevant client sessions
+> - Investigate using `window.performance.getEntriesByType('resource')` API to target specific elements per page / session (e.g. images / css)
+
+### Writing a custom SSE client
+
+While the default behavior of the built-in client focuses on reloading the page content, you can replace it with your own client logic, simply point to the client path using `--client` argument.
+
+> _**Note**: `--client` must be relative path to `--root`_
+
+###### client code:
+
+```js
+const sse = new EventSource(`${window.location.origin}/__events`)
+
+sse.addEventListener('all', console.log)
+```
+
+> _See [`Using server-sent events`](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events) article by Mozilla for more examples on what you can do._
+
+### Available events
+
+`add`, `addDir`, `change`, `unlink`, `unlinkDir`, `all`
+
+> _**Note**: for more details check out [Chokidar's docs](https://github.com/paulmillr/chokidar#methods--events)_
+
+## Server Side Includes
+
+The server will automatically process [SSI][Server Side Includes] directives:
+
+### Supported Directives
+
+| directive  | parameters     | example                              | description                                              | 
+| ---------- | -------------- | ------------------------------------ | -------------------------------------------------------- |
+| `echo`     | `var`          | `<!--#echo var="NODE_ENV" -->`       | displays the value of the specified environment variable |
+| `set`      | `var`, `value` | `<!--#set var="foo" value="bar" -->` | sets the value of an environment variable                |
+| `printenv` | [`space`]      | `<!--#printenv space="  " -->`       | outputs a list of all environment variables as JSON      |
+
+[`space`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
+[Server Sent Events]: https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events
+[Server Side Includes]: https://en.wikipedia.org/wiki/Server_Side_Includes

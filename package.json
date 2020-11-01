@@ -1,16 +1,27 @@
 {
   "version": "0.0.0-semantically-released",
-  "name": "@ahmadnassri/template",
+  "name": "serve-reload-replace",
   "description": "node library project template",
   "author": "Ahmad Nassri <email@ahmadnassri.com> (https://www.ahmadnassri.com)",
-  "homepage": "https://github.com/ahmadnassri/template-node",
+  "homepage": "https://github.com/ahmadnassri/node-serve-reload-replace",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ahmadnassri/template-node.git"
+    "url": "https://github.com/ahmadnassri/node-serve-reload-replace.git"
   },
   "license": "MIT",
-  "main": "lib/index.js",
+  "main": "lib/server.js",
+  "bin": {
+    "srr": "lib/bin.js"
+  },
   "keywords": [
+    "node",
+    "server",
+    "static",
+    "watch",
+    "reload",
+    "sse",
+    "ssi",
+    "eventsource"
   ],
   "engines": {
     "node": ">=12"
@@ -19,15 +30,19 @@
     "lib"
   ],
   "bugs": {
-    "url": "https://github.com/ahmadnassri/template-node/issues"
+    "url": "https://github.com/ahmadnassri/node-serve-reload-replace/issues"
   },
   "scripts": {
-    "test": "tap test --no-coverage",
-    "test:watch": "tap test --watch",
-    "test:ci": "tap test --100 --color --coverage-report=lcov --no-browser"
+    "test": "tap test --no-esm --no-coverage",
+    "test:watch": "tap test --no-esm --watch",
+    "test:ci": "tap test --no-esm --100 --color --coverage-report=lcov --no-browser"
   },
   "devDependencies": {
     "sinon": "^9.2.1",
     "tap": "^14.10.8"
+  },
+  "dependencies": {
+    "chokidar": "^3.4.3",
+    "oh-my-log": "^5.0.1"
   }
 }
