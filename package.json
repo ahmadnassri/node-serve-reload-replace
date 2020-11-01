@@ -1,7 +1,7 @@
 {
   "version": "0.0.0-semantically-released",
   "name": "serve-reload-replace",
-  "description": "node library project template",
+  "description": "simple http server with built-in live reload, server-sent events, server side includes, and more!",
   "author": "Ahmad Nassri <email@ahmadnassri.com> (https://www.ahmadnassri.com)",
   "homepage": "https://github.com/ahmadnassri/node-serve-reload-replace",
   "repository": {
