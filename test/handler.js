@@ -74,7 +74,7 @@ test('__events request', async assert => {
   assert.true(response.writeHead.calledWith(200, {
     'Content-Type': 'text/event-stream',
     Connection: 'keep-alive',
-    'Cache-Control': 'no-cache'
+    'Cache-Control': 'no-store'
   }))
 
   assert.true(logger.log.calledWith('%dot:yellow SSE Client Connected: %s:dim'))
