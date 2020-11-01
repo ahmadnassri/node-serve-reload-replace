@@ -1,4 +1,5 @@
 const os = require('os')
+const { normalize } = require('path')
 
 const { test } = require('tap')
 const { stub } = require('sinon')
@@ -18,7 +19,7 @@ test('expand ~+', assert => {
 
   const { expandTilde } = require('../lib/path-utils')
 
-  assert.equal(expandTilde('~+/foo'), `${process.cwd()}/foo`)
+  assert.equal(expandTilde('~+/foo'), normalize(`${process.cwd()}/foo`))
 })
 
 test('no os home', assert => {
