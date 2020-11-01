@@ -1,0 +1,8 @@
+version: 2.0
+
+id: template-node
+
+about:
+  title: Node Lib Template
+  description: node library project template
+  repository: ahmadnassri/template-node-lib

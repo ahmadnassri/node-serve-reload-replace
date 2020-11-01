@@ -1,0 +1,33 @@
+{
+  "version": "0.0.0-semantically-released",
+  "name": "@ahmadnassri/template",
+  "description": "node library project template",
+  "author": "Ahmad Nassri <email@ahmadnassri.com> (https://www.ahmadnassri.com)",
+  "homepage": "https://github.com/ahmadnassri/template-node",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahmadnassri/template-node.git"
+  },
+  "license": "MIT",
+  "main": "lib/index.js",
+  "keywords": [
+  ],
+  "engines": {
+    "node": ">=12"
+  },
+  "files": [
+    "lib"
+  ],
+  "bugs": {
+    "url": "https://github.com/ahmadnassri/template-node/issues"
+  },
+  "scripts": {
+    "test": "tap test --no-coverage",
+    "test:watch": "tap test --watch",
+    "test:ci": "tap test --100 --color --coverage-report=lcov --no-browser"
+  },
+  "devDependencies": {
+    "sinon": "^9.2.1",
+    "tap": "^14.10.8"
+  }
+}
