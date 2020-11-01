@@ -1,3 +1,4 @@
+const { EOL } = require('os')
 const { test } = require('tap')
 const { normalize } = require('path')
 const { parse } = require('../lib/parse')
@@ -41,7 +42,7 @@ test('unknown mimetyle', async assert => {
 test('read content', async assert => {
   assert.plan(1)
 
-  assert.match(await parse('/test/fixtures/index.html'), { content: '<body>hello world</body>\n' })
+  assert.match(await parse('/test/fixtures/index.html'), { content: `<body>hello world</body>${EOL}` })
 })
 
 test('traverse directory', async assert => {

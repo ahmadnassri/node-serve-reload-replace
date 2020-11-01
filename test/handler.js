@@ -1,3 +1,4 @@
+const { EOL } = require('os')
 const { EventEmitter } = require('events')
 
 const { test, afterEach } = require('tap')
@@ -133,7 +134,7 @@ test('__client custom not found', async assert => {
   await event(request, response)
 
   assert.true(response.writeHead.calledWith(200, { 'Content-Type': 'text/javascript' }))
-  assert.true(response.end.calledWith(Buffer.from('hello world\n')))
+  assert.true(response.end.calledWith(Buffer.from(`hello world${EOL}`)))
 })
 
 test('real path', async assert => {
@@ -159,7 +160,7 @@ test('html file', async assert => {
   await event(request, response)
 
   assert.equal(response.statusCode, 200)
-  assert.equal(response.body, '<body>hello world<script type="application/javascript" src="/__client"></script></body>\n')
+  assert.equal(response.body, `<body>hello world<script type="application/javascript" src="/__client"></script></body>${EOL}`)
   assert.true(response.setHeader.calledWith('Content-Type', 'text/html'))
 })
 
