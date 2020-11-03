@@ -60,7 +60,7 @@ test('log request events: verbose', async assert => {
 
   assert.true(logger.log.calledWith('%in:yellow %s:gray: %s:dim', 'x-foo', 'bar'))
   assert.true(logger.log.calledWith('%in:yellow HTTP/%s:dim %s:white %s:yellow', 1, 'GET', '/'))
-  assert.match(response.statusCode, 404)
+  assert.equal(response.statusCode, 404)
   assert.match(response.body, '<h1>Server Error:</h1>')
 })
 
@@ -73,9 +73,9 @@ test('__events request', async assert => {
   await event(request, response)
 
   assert.true(response.writeHead.calledWith(200, {
-    'Content-Type': 'text/event-stream',
-    Connection: 'keep-alive',
-    'Cache-Control': 'no-store'
+    connection: 'keep-alive',
+    'content-type': 'text/event-stream',
+    'cache-control': 'no-store'
   }))
 
   assert.true(logger.log.calledWith('%dot:yellow SSE Client Connected: %s:dim'))
@@ -91,7 +91,7 @@ test('__events closed', async assert => {
 
   request.emit('close')
 
-  assert.true(logger.log.calledWith('%dot:yellow SSE Client Disconnected : %s:dim'))
+  assert.true(logger.log.calledWith('%dot:yellow SSE Client Disconnected: %s:dim'))
 })
 
 test('__client request', async assert => {
@@ -102,7 +102,11 @@ test('__client request', async assert => {
   const event = require('../lib/handler')(options)
   await event(request, response)
 
-  assert.true(response.writeHead.calledWith(200, { 'Content-Type': 'text/javascript' }))
+  assert.true(response.writeHead.calledWith(200, {
+    connection: 'keep-alive',
+    'content-type': 'text/event-stream',
+    'cache-control': 'no-store'
+  }))
 })
 
 test('__client custom', async assert => {
@@ -117,12 +121,12 @@ test('__client custom', async assert => {
   const event = require('../lib/handler')(options)
   await event(request, response)
 
-  assert.match(response.statusCode, 404)
+  assert.equal(response.statusCode, 404)
   assert.match(response.body, '<h1>Server Error:</h1>')
 })
 
 test('__client custom not found', async assert => {
-  assert.plan(2)
+  assert.plan(3)
 
   process.env.FOO = 'hi'
 
@@ -133,7 +137,8 @@ test('__client custom not found', async assert => {
   const event = require('../lib/handler')(options)
   await event(request, response)
 
-  assert.true(response.writeHead.calledWith(200, { 'Content-Type': 'text/javascript' }))
+  assert.equal(response.statusCode, 404)
+  assert.equal(response.headers['content-type'], 'text/html')
   assert.true(response.end.calledWith(Buffer.from(`hello world${EOL}`)))
 })
 
@@ -147,7 +152,7 @@ test('real path', async assert => {
   await event(request, response)
 
   assert.equal(response.statusCode, 200)
-  assert.true(response.setHeader.calledWith('Content-Type', 'application/octet-stream'))
+  assert.equal(response.headers['content-type'], 'application/octet-stream')
 })
 
 test('html file', async assert => {
@@ -161,7 +166,7 @@ test('html file', async assert => {
 
   assert.equal(response.statusCode, 200)
   assert.equal(response.body, `<body>hello world<script type="application/javascript" src="/__client"></script></body>${EOL}`)
-  assert.true(response.setHeader.calledWith('Content-Type', 'text/html'))
+  assert.equal(response.headers['content-type'], 'text/html')
 })
 
 test('request data', async assert => {
