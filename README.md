@@ -144,6 +144,18 @@ The server will automatically process [SSI](https://en.wikipedia.org/wiki/Server
 | `set`      | `var`, `value`                                                                                             | `<!--#set var="foo" value="bar" -->` | sets the value of an environment variable                |
 | `printenv` | [`space`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify) | `<!--#printenv space="  " -->`       | outputs a list of all environment variables as JSON      |
 
+## Docker
+
+Run as a docker image:
+
+``` bash
+$ docker run -it -p 8080:8080 -v $(pwd)/www:/www ahmadnassri/serve-reload-replace
+```
+
+###### pass arguments and match the port and volume mount
+
+    $ docker run -it -p 3000:3000 -v /path/to/your/project:/my-project ahmadnassri/serve-reload-replace --port=3000 --root=/my-project
+
 ----
 > Author: [Ahmad Nassri](https://www.ahmadnassri.com/) &bull;
 > Twitter: [@AhmadNassri](https://twitter.com/AhmadNassri)
