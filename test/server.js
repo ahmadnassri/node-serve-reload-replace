@@ -73,6 +73,6 @@ test('log server events', async assert => {
   fakeHTTPInstance.emit('close')
 
   assert.true(logger.log.calledWith('%dot:red %s', 'foo'))
-  assert.true(logger.log.calledWith('%dot:red Stopped Listening'))
+  assert.true(logger.log.calledWith('%dot:red Server Stopped'))
   assert.true(logger.log.calledWith('%dot:green Listening on %s:yellow %d:red', 'address', 'port'))
 })
