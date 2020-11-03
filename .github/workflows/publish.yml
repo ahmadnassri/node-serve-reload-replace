@@ -35,7 +35,7 @@ jobs:
       - id: hub
         run: |
           echo "::set-output name=name::$(basename ${GITHUB_REPOSITORY/node-//})"
-          echo "::set-output name=version::${GITHUB_REF#refs/tags/}
+          echo "::set-output name=version::${GITHUB_REF#refs/tags/}"
 
       # publish
       - uses: docker/build-push-action@v2
