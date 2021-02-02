@@ -1,6 +1,6 @@
 # SRR: Serve Reload Replace
 
-simple http server with built-in live reload, server-sent events, server side includes, and more\!
+simple http server with built-in live reload, server-sent events, server side includes, and more!
 
 [![license][license-img]][license-url]
 [![release][release-img]][release-url]
@@ -10,13 +10,13 @@ simple http server with built-in live reload, server-sent events, server side in
 
 ## Features
 
-  - **Serve**: Simple HTTP Server for static files
-      - forced cache busting through `Cache-Control: no-store` headers
-  - **Reload**: Automatically watches for file changes, and reloads pages
-      - uses light weight [Server Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) to notify browser with file changes
-      - automatically injects watcher client
-      - customize the client behavior with your own client script
-  - **Replace**: Supports [Server Side Includes](https://en.wikipedia.org/wiki/Server_Side_Includes) directives
+-   **Serve**: Simple HTTP Server for static files
+    -   forced cache busting through `Cache-Control: no-store` headers
+-   **Reload**: Automatically watches for file changes, and reloads pages
+    -   uses light weight [Server Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) to notify browser with file changes
+    -   automatically injects watcher client
+    -   customize the client behavior with your own client script
+-   **Replace**: Supports [Server Side Includes](https://en.wikipedia.org/wiki/Server_Side_Includes) directives
 
 ## Install
 
@@ -106,9 +106,9 @@ The built-in client is automatically served from the `/__client` endpoint, and i
 The built-in client simply listens to `all` event and executes a page reload through `window.location.reload()`
 
 > **TODO:**
-> 
->   - Track actively opened files, and only notify relevant client sessions
->   - Investigate using `window.performance.getEntriesByType('resource')` API to target specific elements per page / session (e.g. images / css)
+>
+> -   Track actively opened files, and only notify relevant client sessions
+> -   Investigate using `window.performance.getEntriesByType('resource')` API to target specific elements per page / session (e.g. images / css)
 
 ### Writing a custom SSE client
 
@@ -138,11 +138,11 @@ The server will automatically process [SSI](https://en.wikipedia.org/wiki/Server
 
 ### Supported Directives
 
-| directive  | parameters                                                                                                 | example                              | description                                              |
-| ---------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------ | -------------------------------------------------------- |
-| `echo`     | `var`                                                                                                      | `<!--#echo var="NODE_ENV" -->`       | displays the value of the specified environment variable |
-| `set`      | `var`, `value`                                                                                             | `<!--#set var="foo" value="bar" -->` | sets the value of an environment variable                |
-| `printenv` | [`space`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify) | `<!--#printenv space="  " -->`       | outputs a list of all environment variables as JSON      |
+\| directive \| parameters \| example \| description \|
+\| ---------- \| -------------- \| ------------------------------------ \| -------------------------------------------------------- \|
+\| `echo` \| `var` \| `<!--#echo var="NODE_ENV" -->` \| displays the value of the specified environment variable \|
+\| `set` \| `var`, `value` \| `<!--#set var="foo" value="bar" -->` \| sets the value of an environment variable \|
+\| `printenv` \| [`space`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify) \| `<!--#printenv space="  " -->` \| outputs a list of all environment variables as JSON \|
 
 ## Docker
 
