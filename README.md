@@ -13,10 +13,10 @@ simple http server with built-in live reload, server-sent events, server side in
 -   **Serve**: Simple HTTP Server for static files
     -   forced cache busting through `Cache-Control: no-store` headers
 -   **Reload**: Automatically watches for file changes, and reloads pages
-    -   uses light weight [Server Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) to notify browser with file changes
+    -   uses light weight [Server Sent Events][] to notify browser with file changes
     -   automatically injects watcher client
     -   customize the client behavior with your own client script
--   **Replace**: Supports [Server Side Includes](https://en.wikipedia.org/wiki/Server_Side_Includes) directives
+-   **Replace**: Supports [Server Side Includes][] directives
 
 ## Install
 
@@ -78,7 +78,7 @@ sse.addEventListener('change', console.log)
 sse.addEventListener('error', event => console.error('SSE error'))
 ```
 
-> ***NOTE**: see [Server Sent Events](#server-sent-events) for more details.*
+> ***NOTE**: see [Server Sent Events][1] for more details.*
 
 open a browser window and navigate to `http://127.0.0.1:2000/`
 
@@ -95,11 +95,11 @@ with the server running, and your browser connected, edit / update / delete any 
 [02:11:42 PM] • unlink foo.html
 ```
 
-![](docs/browser-console.png)
+![][2]
 
 ## Server Sent Events
 
-File system events are forwarded from [`Chokidar`](https://github.com/paulmillr/chokidar) using [Server Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events).
+File system events are forwarded from [`Chokidar`][] using [Server Sent Events][].
 
 The built-in client is automatically served from the `/__client` endpoint, and it connects to the special path `/__events` which serves the events.
 
@@ -124,17 +124,17 @@ const sse = new EventSource(`${window.location.origin}/__events`)
 sse.addEventListener('all', console.log)
 ```
 
-> *See [`Using server-sent events`](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events) article by Mozilla for more examples on what you can do.*
+> *See [`Using server-sent events`][] article by Mozilla for more examples on what you can do.*
 
 ### Available events
 
 `add`, `addDir`, `change`, `unlink`, `unlinkDir`, `all`
 
-> ***Note**: for more details check out [Chokidar's docs](https://github.com/paulmillr/chokidar#methods--events)*
+> ***Note**: for more details check out [Chokidar's docs][]*
 
 ## Server Side Includes
 
-The server will automatically process [SSI](https://en.wikipedia.org/wiki/Server_Side_Includes) directives:
+The server will automatically process [SSI][Server Side Includes] directives:
 
 ### Supported Directives
 
@@ -142,7 +142,7 @@ The server will automatically process [SSI](https://en.wikipedia.org/wiki/Server
 \| ---------- \| -------------- \| ------------------------------------ \| -------------------------------------------------------- \|
 \| `echo` \| `var` \| `<!--#echo var="NODE_ENV" -->` \| displays the value of the specified environment variable \|
 \| `set` \| `var`, `value` \| `<!--#set var="foo" value="bar" -->` \| sets the value of an environment variable \|
-\| `printenv` \| [`space`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify) \| `<!--#printenv space="  " -->` \| outputs a list of all environment variables as JSON \|
+\| `printenv` \| [`space`][] \| `<!--#printenv space="  " -->` \| outputs a list of all environment variables as JSON \|
 
 ## Docker
 
@@ -155,6 +155,15 @@ $ docker run -it -p 8080:8080 -v $(pwd)/www:/www ahmadnassri/serve-reload-replac
 ###### pass arguments and match the port and volume mount
 
     $ docker run -it -p 3000:3000 -v /path/to/your/project:/my-project ahmadnassri/serve-reload-replace --port=3000 --root=/my-project
+
+  [Server Sent Events]: https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events
+  [Server Side Includes]: https://en.wikipedia.org/wiki/Server_Side_Includes
+  [1]: #server-sent-events
+  [2]: docs/browser-console.png
+  [`Chokidar`]: https://github.com/paulmillr/chokidar
+  [`Using server-sent events`]: https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events
+  [Chokidar's docs]: https://github.com/paulmillr/chokidar#methods--events
+  [`space`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
 
 ----
 > Author: [Ahmad Nassri](https://www.ahmadnassri.com/) &bull;
