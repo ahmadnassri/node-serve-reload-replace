@@ -127,11 +127,11 @@ The server will automatically process [SSI][Server Side Includes] directives:
 
 ### Supported Directives
 
-| directive  | parameters     | example                              | description                                              | 
-| ---------- | -------------- | ------------------------------------ | -------------------------------------------------------- |
-| `echo`     | `var`          | `<!--#echo var="NODE_ENV" -->`       | displays the value of the specified environment variable |
-| `set`      | `var`, `value` | `<!--#set var="foo" value="bar" -->` | sets the value of an environment variable                |
-| `printenv` | [`space`]      | `<!--#printenv space="  " -->`       | outputs a list of all environment variables as JSON      |
+directive  | parameters     | example                              | description                                             
+---------- | -------------- | ------------------------------------ | --------------------------------------------------------
+`echo`     | `var`          | `<!--#echo var="NODE_ENV" -->`       | displays the value of the specified environment variable
+`set`      | `var`, `value` | `<!--#set var="foo" value="bar" -->` | sets the value of an environment variable               
+`printenv` | [`space`]      | `<!--#printenv space="  " -->`       | outputs a list of all environment variables as JSON     
 
 ## Docker
 
