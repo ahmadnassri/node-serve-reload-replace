@@ -34,9 +34,10 @@
   },
   "scripts": {
     "start": "lib/bin.js",
-    "test": "tap test --no-esm --no-coverage",
-    "test:watch": "tap test --no-esm --watch",
-    "test:ci": "tap test --no-esm --100 --color --coverage-report=lcov --no-browser"
+    "test": "tap test --no-coverage",
+    "test:watch": "tap test --watch",
+    "test:ci": "tap test --100",
+    "test:report": "opener coverage/lcov-report/index.html"
   },
   "devDependencies": {
     "sinon": "^10.0.0",
