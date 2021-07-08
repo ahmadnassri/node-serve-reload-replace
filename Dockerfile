@@ -1,5 +1,5 @@
 # ---- base image ----
-FROM node:15.12.0-slim
+FROM node:16.4.2-slim
 
 # ---- start in /app ----
 WORKDIR /app
