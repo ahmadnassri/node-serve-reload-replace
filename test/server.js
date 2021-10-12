@@ -30,21 +30,17 @@ class fakeHTTP extends EventEmitter {
 http.Server = fakeHTTP
 logger.log = stub()
 
-beforeEach(done => {
+beforeEach(() => {
   watch = stub(chokidar, 'watch').returns(({ on: fake(), close: fake() }))
 
   // fake methods
   fakeHTTP.prototype.listen = fake()
-
-  done()
 })
 
-afterEach(done => {
+afterEach(() => {
   logger.log.resetHistory()
 
   watch.restore()
-
-  done()
 })
 
 test('listens on default address', async assert => {
@@ -52,7 +48,7 @@ test('listens on default address', async assert => {
 
   require('../lib/server')()
 
-  assert.true(fakeHTTP.prototype.listen.calledWith(8080, '0.0.0.0'))
+  assert.ok(fakeHTTP.prototype.listen.calledWith(8080, '0.0.0.0'))
 })
 
 test('listens on custom address', async assert => {
@@ -60,7 +56,7 @@ test('listens on custom address', async assert => {
 
   require('../lib/server')({ port: 1234, address: '1.1.1.1' })
 
-  assert.true(fakeHTTP.prototype.listen.calledWith(1234, '1.1.1.1'))
+  assert.ok(fakeHTTP.prototype.listen.calledWith(1234, '1.1.1.1'))
 })
 
 test('log server events', async assert => {
@@ -72,7 +68,7 @@ test('log server events', async assert => {
   fakeHTTPInstance.emit('listening')
   fakeHTTPInstance.emit('close')
 
-  assert.true(logger.log.calledWith('%dot:red %s', 'foo'))
-  assert.true(logger.log.calledWith('%dot:red Server Stopped'))
-  assert.true(logger.log.calledWith('%dot:green Listening on %s:yellow %d:red', 'address', 'port'))
+  assert.ok(logger.log.calledWith('%dot:red %s', 'foo'))
+  assert.ok(logger.log.calledWith('%dot:red Server Stopped'))
+  assert.ok(logger.log.calledWith('%dot:green Listening on %s:yellow %d:red', 'address', 'port'))
 })

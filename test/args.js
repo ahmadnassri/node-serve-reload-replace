@@ -5,14 +5,12 @@ const { parse } = require('../lib/args.js')
 
 const sandbox = createSandbox()
 
-tap.beforeEach(done => {
+tap.beforeEach(() => {
   sandbox.stub(process, 'argv').value([0, 0, '--foo=bar', '--bool', '--flag=no'])
-  done()
 })
 
-tap.afterEach(done => {
+tap.afterEach(() => {
   sandbox.restore()
-  done()
 })
 
 tap.test('no options', assert => {

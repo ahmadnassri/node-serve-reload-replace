@@ -1,5 +1,5 @@
 const { test } = require('tap')
-const { fake, stub } = require('sinon')
+const { fake } = require('sinon')
 
 const logger = require('../lib/log')
 
@@ -66,5 +66,5 @@ test('unsupported directives', async assert => {
   const result = require('../lib/ssi')('<!--#foobar -->')
 
   assert.equal(result, '<!--#foobar -->')
-  assert.true(logger.log.calledWith('%dot:red unsupported SSI directive %s', 'foobar'))
+  assert.ok(logger.log.calledWith('%dot:red unsupported SSI directive %s', 'foobar'))
 })

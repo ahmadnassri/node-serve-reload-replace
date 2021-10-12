@@ -20,10 +20,8 @@ class FakeRequest extends EventEmitter {
 
 logger.log = stub()
 
-afterEach(done => {
+afterEach(() => {
   logger.log.resetHistory()
-
-  done()
 })
 
 const request = new FakeRequest({ httpVersion: 1, method: 'GET', url: '/' })
@@ -48,7 +46,7 @@ test('log request events: short', async assert => {
   const event = require('../lib/handler')(options)
   await event(request, response)
 
-  assert.true(logger.log.calledWith('%dot:green %s:white %s:yellow ↦  %s:white %s:dim', 'GET', '/', response.statusCode, response.statusMessage))
+  assert.ok(logger.log.calledWith('%dot:green %s:white %s:yellow ↦  %s:white %s:dim', 'GET', '/', response.statusCode, response.statusMessage))
 })
 
 test('log request events: verbose', async assert => {
@@ -58,8 +56,8 @@ test('log request events: verbose', async assert => {
   const event = require('../lib/handler')(options)
   await event(request, response)
 
-  assert.true(logger.log.calledWith('%in:yellow %s:gray: %s:dim', 'x-foo', 'bar'))
-  assert.true(logger.log.calledWith('%in:yellow HTTP/%s:dim %s:white %s:yellow', 1, 'GET', '/'))
+  assert.ok(logger.log.calledWith('%in:yellow %s:gray: %s:dim', 'x-foo', 'bar'))
+  assert.ok(logger.log.calledWith('%in:yellow HTTP/%s:dim %s:white %s:yellow', 1, 'GET', '/'))
   assert.equal(response.statusCode, 404)
   assert.match(response.body, '<h1>Server Error:</h1>')
 })
@@ -72,13 +70,13 @@ test('__events request', async assert => {
   const event = require('../lib/handler')(options)
   await event(request, response)
 
-  assert.true(response.writeHead.calledWith(200, {
+  assert.ok(response.writeHead.calledWith(200, {
     connection: 'keep-alive',
     'content-type': 'text/event-stream',
     'cache-control': 'no-store'
   }))
 
-  assert.true(logger.log.calledWith('%dot:yellow SSE Client Connected: %s:dim'))
+  assert.ok(logger.log.calledWith('%dot:yellow SSE Client Connected: %s:dim'))
 })
 
 test('__events closed', async assert => {
@@ -91,7 +89,7 @@ test('__events closed', async assert => {
 
   request.emit('close')
 
-  assert.true(logger.log.calledWith('%dot:yellow SSE Client Disconnected: %s:dim'))
+  assert.ok(logger.log.calledWith('%dot:yellow SSE Client Disconnected: %s:dim'))
 })
 
 test('__client request', async assert => {
@@ -102,7 +100,7 @@ test('__client request', async assert => {
   const event = require('../lib/handler')(options)
   await event(request, response)
 
-  assert.true(response.writeHead.calledWith(200, {
+  assert.ok(response.writeHead.calledWith(200, {
     connection: 'keep-alive',
     'content-type': 'text/event-stream',
     'cache-control': 'no-store'
@@ -139,7 +137,7 @@ test('__client custom not found', async assert => {
 
   assert.equal(response.statusCode, 404)
   assert.equal(response.headers['content-type'], 'text/html')
-  assert.true(response.end.calledWith(Buffer.from(`hello world${EOL}`)))
+  assert.ok(response.end.calledWith(Buffer.from(`hello world${EOL}`)))
 })
 
 test('real path', async assert => {
@@ -179,7 +177,7 @@ test('request data', async assert => {
 
   request.emit('data', 'foo')
 
-  assert.true(logger.log.calledWith('%in:yellow [%d:blue] %s', 'foo'.length, 'foo'))
+  assert.ok(logger.log.calledWith('%in:yellow [%d:blue] %s', 'foo'.length, 'foo'))
 })
 
 test('request error', async assert => {
@@ -192,5 +190,5 @@ test('request error', async assert => {
 
   request.emit('error', 'foo')
 
-  assert.true(logger.log.calledWith('%dot:red %s', 'foo'))
+  assert.ok(logger.log.calledWith('%dot:red %s', 'foo'))
 })

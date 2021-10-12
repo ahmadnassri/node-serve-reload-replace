@@ -15,7 +15,7 @@ test('sse events', async assert => {
   const event = require('../lib/sse')([response])
   await event('change', '/foo.html')
 
-  assert.true(logger.log.calledWith('%dot:yellow %s:dim %s:blue', 'change', '/foo.html'))
-  assert.true(response.write.calledWith('event: change\ndata: /foo.html\n\n'))
-  assert.true(response.write.calledWith('event: all\ndata: /foo.html\n\n'))
+  assert.ok(logger.log.calledWith('%dot:yellow %s:dim %s:blue', 'change', '/foo.html'))
+  assert.ok(response.write.calledWith('event: change\ndata: /foo.html\n\n'))
+  assert.ok(response.write.calledWith('event: all\ndata: /foo.html\n\n'))
 })
