@@ -8,11 +8,14 @@
     "type": "git",
     "url": "https://github.com/ahmadnassri/node-serve-reload-replace.git"
   },
-  "license": "MIT",
-  "main": "lib/server.js",
-  "bin": {
-    "srr": "lib/bin.js"
+  "bugs": {
+    "url": "https://github.com/ahmadnassri/node-serve-reload-replace/issues"
   },
+  "funding": {
+    "type": "individual",
+    "url": "https://github.com/sponsors/ahmadnassri"
+  },
+  "license": "MIT",
   "keywords": [
     "node",
     "server",
@@ -29,8 +32,9 @@
   "files": [
     "lib"
   ],
-  "bugs": {
-    "url": "https://github.com/ahmadnassri/node-serve-reload-replace/issues"
+  "main": "lib/server.js",
+  "bin": {
+    "srr": "lib/bin.js"
   },
   "scripts": {
     "start": "lib/bin.js",
@@ -41,7 +45,7 @@
   },
   "devDependencies": {
     "sinon": "^10.0.0",
-    "tap": "^14.10.8"
+    "tap": "^15.0.10"
   },
   "dependencies": {
     "chalk": "^4.1.0",
