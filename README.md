@@ -39,7 +39,7 @@ Usage: srr [options]
   --help     Display Help
 ```
 
-###### quick start:
+###### quick start
 
 ``` bash
 $ cd ~/project
@@ -57,7 +57,7 @@ The built-in EventSource client will automatically reload all pages whenever any
 
 > ***NOTE**: Future plans include selectively reloading resources in the browser.*
 
-###### with optional arguments & custom client:
+###### with optional arguments & custom client
 
 ``` bash
 $ srr --root=~/projects/website/ --address=127.0.0.1 --port=2000 --client=js/my-client.js
@@ -116,7 +116,7 @@ While the default behavior of the built-in client focuses on reloading the page 
 
 > ***Note**: `--client` must be relative path to `--root`*
 
-###### client code:
+###### client code
 
 ``` js
 const sse = new EventSource(`${window.location.origin}/__events`)
@@ -154,7 +154,9 @@ $ docker run -it -p 8080:8080 -v $(pwd)/www:/www ahmadnassri/serve-reload-replac
 
 ###### pass arguments and match the port and volume mount
 
-    $ docker run -it -p 3000:3000 -v /path/to/your/project:/my-project ahmadnassri/serve-reload-replace --port=3000 --root=/my-project
+``` bash
+$ docker run -it -p 3000:3000 -v /path/to/your/project:/my-project ahmadnassri/serve-reload-replace --port=3000 --root=/my-project
+```
 
   [Server Sent Events]: https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events
   [Server Side Includes]: https://en.wikipedia.org/wiki/Server_Side_Includes

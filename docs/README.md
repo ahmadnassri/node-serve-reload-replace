@@ -29,7 +29,7 @@ Usage: srr [options]
   --help     Display Help
 ```
 
-###### quick start:
+###### quick start
 
 ```bash
 $ cd ~/project
@@ -47,7 +47,7 @@ The built-in EventSource client will automatically reload all pages whenever any
 
 > _**NOTE**: Future plans include selectively reloading resources in the browser._
 
-###### with optional arguments & custom client:
+###### with optional arguments & custom client
 
 ```bash
 $ srr --root=~/projects/website/ --address=127.0.0.1 --port=2000 --client=js/my-client.js
@@ -96,6 +96,7 @@ The built-in client is automatically served from the `/__client` endpoint, and i
 The built-in client simply listens to `all` event and executes a page reload through `window.location.reload()`
 
 > **TODO:**
+>
 > - Track actively opened files, and only notify relevant client sessions
 > - Investigate using `window.performance.getEntriesByType('resource')` API to target specific elements per page / session (e.g. images / css)
 
@@ -105,7 +106,7 @@ While the default behavior of the built-in client focuses on reloading the page 
 
 > _**Note**: `--client` must be relative path to `--root`_
 
-###### client code:
+###### client code
 
 ```js
 const sse = new EventSource(`${window.location.origin}/__events`)
@@ -127,11 +128,11 @@ The server will automatically process [SSI][Server Side Includes] directives:
 
 ### Supported Directives
 
-directive  | parameters     | example                              | description                                             
----------- | -------------- | ------------------------------------ | --------------------------------------------------------
-`echo`     | `var`          | `<!--#echo var="NODE_ENV" -->`       | displays the value of the specified environment variable
-`set`      | `var`, `value` | `<!--#set var="foo" value="bar" -->` | sets the value of an environment variable               
-`printenv` | [`space`]      | `<!--#printenv space="  " -->`       | outputs a list of all environment variables as JSON     
+| directive  | parameters     | example                              | description                                              |
+| ---------- | -------------- | ------------------------------------ | -------------------------------------------------------- |
+| `echo`     | `var`          | `<!--#echo var="NODE_ENV" -->`       | displays the value of the specified environment variable |
+| `set`      | `var`, `value` | `<!--#set var="foo" value="bar" -->` | sets the value of an environment variable                |
+| `printenv` | [`space`]      | `<!--#printenv space="  " -->`       | outputs a list of all environment variables as JSON      |
 
 ## Docker
 
@@ -143,7 +144,7 @@ $ docker run -it -p 8080:8080 -v $(pwd)/www:/www ahmadnassri/serve-reload-replac
 
 ###### pass arguments and match the port and volume mount
 
-```
+```bash
 $ docker run -it -p 3000:3000 -v /path/to/your/project:/my-project ahmadnassri/serve-reload-replace --port=3000 --root=/my-project
 ```
 
