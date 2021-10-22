@@ -24,7 +24,7 @@ jobs:
 
       - id: dockerfile
         run: |
-          [[ -f "${{ github.workspace }}/Dockerfile" ]] && echo '::set-output name=exists::yes'
+          [[ -f "${{ github.workspace }}/Dockerfile" ]] && echo '::set-output name=exists::yes' || exit 0
 
   commit-lint:
     timeout-minutes: 5
