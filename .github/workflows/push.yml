@@ -23,7 +23,8 @@ jobs:
         uses: ahmadnassri/action-metadata@v1
 
       - id: dockerfile
-        run: "[[ -f ${{ github.workspace }}/Dockerfile ]] && echo '::set-output name=exists::yes'"
+        run: |
+          [[ -f "${{ github.workspace }}/Dockerfile" ]] && echo '::set-output name=exists::yes'
 
   commit-lint:
     timeout-minutes: 5
@@ -116,7 +117,9 @@ jobs:
       - run: npm run test:ci
 
   release:
-    needs: test-run
+    needs:
+      - metadata
+      - test-run
 
     # only runs on main branch for non template repos
     if: ${{ github.ref == 'refs/heads/master' && !fromJSON(needs.metadata.outputs.repository).is_template }}
@@ -164,7 +167,7 @@ jobs:
       - name: publish to github registry
         run: |
           jq '.name = "@'"${GITHUB_REPOSITORY/node-/}"'"' package.json > /tmp/package.json; mv /tmp/package.json .
-          npm version --no-git-tag-version v${{ needs.release.outputs.version }}
+          npm version --no-git-tag-version "v${{ needs.release.outputs.version }}"
           npm publish
 
   publish-docker:
@@ -207,7 +210,7 @@ jobs:
 
       - id: hub
         run: |
-          echo "::set-output name=name::$(basename ${GITHUB_REPOSITORY/node-//})"
+          echo "::set-output name=name::$(basename "${GITHUB_REPOSITORY/node-//}")"
           echo "::set-output name=version::${{ needs.release.outputs.version }}"
 
       # publish
