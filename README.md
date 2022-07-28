@@ -4,8 +4,6 @@ simple http server with built-in live reload, server-sent events, server side in
 
 [![license][license-img]][license-url]
 [![release][release-img]][release-url]
-[![super linter][super-linter-img]][super-linter-url]
-[![test][test-img]][test-url]
 [![semantic][semantic-img]][semantic-url]
 
 ## Features
@@ -176,12 +174,6 @@ $ docker run -it -p 3000:3000 -v /path/to/your/project:/my-project ahmadnassri/s
 
 [release-url]: https://github.com/ahmadnassri/node-serve-reload-replace/releases
 [release-img]: https://badgen.net/github/release/ahmadnassri/node-serve-reload-replace
-
-[super-linter-url]: https://github.com/ahmadnassri/node-serve-reload-replace/actions?query=workflow%3Asuper-linter
-[super-linter-img]: https://github.com/ahmadnassri/node-serve-reload-replace/workflows/super-linter/badge.svg
-
-[test-url]: https://github.com/ahmadnassri/node-serve-reload-replace/actions?query=workflow%3Atest
-[test-img]: https://github.com/ahmadnassri/node-serve-reload-replace/workflows/test/badge.svg
 
 [semantic-url]: https://github.com/ahmadnassri/node-serve-reload-replace/actions?query=workflow%3Arelease
 [semantic-img]: https://badgen.net/badge/📦/semantically%20released/blue
