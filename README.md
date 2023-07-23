@@ -8,13 +8,13 @@ simple http server with built-in live reload, server-sent events, server side in
 
 ## Features
 
--   **Serve**: Simple HTTP Server for static files
-    -   forced cache busting through `Cache-Control: no-store` headers
--   **Reload**: Automatically watches for file changes, and reloads pages
-    -   uses light weight [Server Sent Events][] to notify browser with file changes
-    -   automatically injects watcher client
-    -   customize the client behavior with your own client script
--   **Replace**: Supports [Server Side Includes][] directives
+- **Serve**: Simple HTTP Server for static files
+  - forced cache busting through `Cache-Control: no-store` headers
+- **Reload**: Automatically watches for file changes, and reloads pages
+  - uses light weight [Server Sent Events][] to notify browser with file changes
+  - automatically injects watcher client
+  - customize the client behavior with your own client script
+- **Replace**: Supports [Server Side Includes][] directives
 
 ## Install
 
@@ -68,12 +68,12 @@ create a new file named `my-client.js` under `~/projects/website/js/`
 
 ``` js
 // connect to Server Sent Events special route
-const sse = new EventSource(`${window.location.origin}/__events`)
+const sse = new EventSource(`${window.location.origin}/__events`);
 
-sse.addEventListener('unlink', console.log)
-sse.addEventListener('add', console.log)
-sse.addEventListener('change', console.log)
-sse.addEventListener('error', event => console.error('SSE error'))
+sse.addEventListener("unlink", console.log);
+sse.addEventListener("add", console.log);
+sse.addEventListener("change", console.log);
+sse.addEventListener("error", (event) => console.error("SSE error"));
 ```
 
 > ***NOTE**: see [Server Sent Events][1] for more details.*
@@ -105,8 +105,8 @@ The built-in client simply listens to `all` event and executes a page reload thr
 
 > **TODO:**
 >
-> -   Track actively opened files, and only notify relevant client sessions
-> -   Investigate using `window.performance.getEntriesByType('resource')` API to target specific elements per page / session (e.g. images / css)
+> - Track actively opened files, and only notify relevant client sessions
+> - Investigate using `window.performance.getEntriesByType('resource')` API to target specific elements per page / session (e.g. images / css)
 
 ### Writing a custom SSE client
 
@@ -117,9 +117,9 @@ While the default behavior of the built-in client focuses on reloading the page 
 ###### client code
 
 ``` js
-const sse = new EventSource(`${window.location.origin}/__events`)
+const sse = new EventSource(`${window.location.origin}/__events`);
 
-sse.addEventListener('all', console.log)
+sse.addEventListener("all", console.log);
 ```
 
 > *See [`Using server-sent events`][] article by Mozilla for more examples on what you can do.*
@@ -141,6 +141,30 @@ The server will automatically process [SSI][Server Side Includes] directives:
 | `echo`     | `var`          | `<!--#echo var="NODE_ENV" -->`       | displays the value of the specified environment variable |
 | `set`      | `var`, `value` | `<!--#set var="foo" value="bar" -->` | sets the value of an environment variable                |
 | `printenv` | [`space`][]    | `<!--#printenv space="  " -->`       | outputs a list of all environment variables as JSON      |
+
+## API
+
+You can use the `serve-reload-replace` programmatically as well:
+
+``` js
+const SRR = require('serve-reload-replace')
+
+const instance = new SRR({
+  verbose = false,
+  root = process.cwd(),
+  index = 'index.html',
+  client
+})
+
+instance.start({
+  address: '0.0.0.0',
+  port: 8080
+})
+
+instance.stop()
+```
+
+*See [CLI Usage][] for available options.*
 
 ## Docker
 
@@ -164,6 +188,7 @@ $ docker run -it -p 3000:3000 -v /path/to/your/project:/my-project ahmadnassri/s
   [`Using server-sent events`]: https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events
   [Chokidar's docs]: https://github.com/paulmillr/chokidar#methods--events
   [`space`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
+  [CLI Usage]: #usage
 
 ----
 > Author: [Ahmad Nassri](https://www.ahmadnassri.com/) &bull;

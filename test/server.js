@@ -24,6 +24,10 @@ class fakeHTTP extends EventEmitter {
       port: 'port'
     }
   }
+
+  close () {
+    return null
+  }
 }
 
 // overwrite http.Server taking advantage of require cache
@@ -46,7 +50,8 @@ afterEach(() => {
 test('listens on default address', async assert => {
   assert.plan(1)
 
-  require('../lib/server')()
+  const SRR = require('../lib/server')
+  new SRR().start()
 
   assert.ok(fakeHTTP.prototype.listen.calledWith(8080, '0.0.0.0'))
 })
@@ -54,7 +59,8 @@ test('listens on default address', async assert => {
 test('listens on custom address', async assert => {
   assert.plan(1)
 
-  require('../lib/server')({ port: 1234, address: '1.1.1.1' })
+  const SRR = require('../lib/server')
+  new SRR().start({ port: 1234, address: '1.1.1.1' })
 
   assert.ok(fakeHTTP.prototype.listen.calledWith(1234, '1.1.1.1'))
 })
@@ -62,7 +68,8 @@ test('listens on custom address', async assert => {
 test('log server events', async assert => {
   assert.plan(3)
 
-  require('../lib/server')()
+  const SRR = require('../lib/server')
+  new SRR().start()
 
   fakeHTTPInstance.emit('error', 'foo')
   fakeHTTPInstance.emit('listening')

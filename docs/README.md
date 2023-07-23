@@ -60,12 +60,12 @@ create a new file named `my-client.js` under `~/projects/website/js/`
 
 ```js
 // connect to Server Sent Events special route
-const sse = new EventSource(`${window.location.origin}/__events`)
+const sse = new EventSource(`${window.location.origin}/__events`);
 
-sse.addEventListener('unlink', console.log)
-sse.addEventListener('add', console.log)
-sse.addEventListener('change', console.log)
-sse.addEventListener('error', event => console.error('SSE error'))
+sse.addEventListener("unlink", console.log);
+sse.addEventListener("add", console.log);
+sse.addEventListener("change", console.log);
+sse.addEventListener("error", (event) => console.error("SSE error"));
 ```
 
 > _**NOTE**: see [Server Sent Events](#server-sent-events) for more details._
@@ -109,9 +109,9 @@ While the default behavior of the built-in client focuses on reloading the page 
 ###### client code
 
 ```js
-const sse = new EventSource(`${window.location.origin}/__events`)
+const sse = new EventSource(`${window.location.origin}/__events`);
 
-sse.addEventListener('all', console.log)
+sse.addEventListener("all", console.log);
 ```
 
 > _See [`Using server-sent events`](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events) article by Mozilla for more examples on what you can do._
@@ -133,6 +133,30 @@ The server will automatically process [SSI][Server Side Includes] directives:
 | `echo`     | `var`          | `<!--#echo var="NODE_ENV" -->`       | displays the value of the specified environment variable |
 | `set`      | `var`, `value` | `<!--#set var="foo" value="bar" -->` | sets the value of an environment variable                |
 | `printenv` | [`space`]      | `<!--#printenv space="  " -->`       | outputs a list of all environment variables as JSON      |
+
+## API
+
+You can use the `serve-reload-replace` programmatically as well:
+
+```js
+const SRR = require('serve-reload-replace')
+
+const instance = new SRR({
+  verbose = false,
+  root = process.cwd(),
+  index = 'index.html',
+  client
+})
+
+instance.start({
+  address: '0.0.0.0',
+  port: 8080
+})
+
+instance.stop()
+```
+
+_See [CLI Usage](#usage) for available options._
 
 ## Docker
 
