@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "sinon": "^15.2.0",
-    "tap": "^16.3.7"
+    "tap": "^18.4.3"
   },
   "dependencies": {
     "chalk": "^4.1.2",
